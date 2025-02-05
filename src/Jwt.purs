@@ -10,22 +10,21 @@
 -- | https://en.wikipedia.org/wiki/JSON_Web_Token
 -- | https://tools.ietf.org/html/rfc7519
 module Jwt
-  ( JwtError (..)
+  ( JwtError(..)
   , decode
   , decodeWith
-  )
-where
+  ) where
 
-import Data.Argonaut.Core   ( Json )
-import Data.Argonaut.Parser ( jsonParser )
-import Data.Array           ( index )
-import Data.Either          ( Either, note )
-import Data.Lens            ( _Left, over )
-import Data.String          ( Pattern (Pattern), split )
-import Data.String.Base64   as Base64
-import Effect.Exception     ( Error )
 import Prelude
 
+import Data.Argonaut.Core (Json)
+import Data.Argonaut.Parser (jsonParser)
+import Data.Array (index)
+import Data.Either (Either, note)
+import Data.Lens (_Left, over)
+import Data.String (Pattern(Pattern), split)
+import Data.String.Base64 as Base64
+import Effect.Exception (Error)
 
 -- | A `JwtError a` can be a
 -- | * `MalformedToken` when the token is not of the form
@@ -48,7 +47,7 @@ decode token =
 
     -- Map possibly failing functions to the same error type
     decodeBase64 = map (over _Left Base64DecodeError) Base64.decode
-    parseAsJson  = map (over _Left JsonParseError   ) jsonParser
+    parseAsJson = map (over _Left JsonParseError) jsonParser
 
   in
     payload >>= decodeBase64 >>= parseAsJson

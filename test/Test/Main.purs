@@ -1,7 +1,8 @@
 module Test.Main where
 
-import Effect   (Effect)
 import Prelude
+
+import Effect (Effect)
 import Test.Jwt (testJwt)
 
 main :: Effect Unit
